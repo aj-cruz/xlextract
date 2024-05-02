@@ -1,4 +1,4 @@
-import openpyxl #type: ignore
+import openpyxl  # type: ignore
 
 
 class GetSheet:

@@ -27,28 +27,28 @@ class BaseExtract:
 
 class XLExtract(BaseExtract):
     def RLookup(self) -> None:
-        '''
+        """
         Returns the value (string) of the cell to the Right of the keyword
-        '''
+        """
         row: int = self.sheet[self.keycoords].row
         col: int = self.sheet[self.keycoords].column + 1
         self.value = self.sheet.cell(row, col).value
 
     def LLookup(self) -> None:
-        '''
+        """
         Returns the value (string) of the cell to the Left of the keyword
-        '''
+        """
         row: int = self.sheet[self.keycoords].row
         col: int = self.sheet[self.keycoords].column - 1
         self.value = self.sheet.cell(row, col).value
 
     def TLookup(self) -> None:
-        '''
+        """
         Function to build a table (dict) of data. Using keyword coordinates as a
         reference point. Searches down, left, and right of the reference coords
         and builds a table of all data (list of flat dictionaries) ending when it
         encounters the first empty cell (assumes all data is populated contiguously)
-        '''
+        """
         table: list = []
         # Establish points of reference
         header_row: int = self.sheet[self.keycoords].row
@@ -110,4 +110,6 @@ class XLExtract(BaseExtract):
         self.value = table
 
         if not self.value:
-            print(f"\nWARNING: The table generated for keyword '{self.keyword}' is empty. This probably means the cell immediately below the keyword is empty.\n")
+            print(
+                f"\nWARNING: The table generated for keyword '{self.keyword}' is empty. This probably means the cell immediately below the keyword is empty.\n"
+            )
