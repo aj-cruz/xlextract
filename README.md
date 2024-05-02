@@ -44,7 +44,7 @@ vrf_table = XLExtract("design_document.xlsx", "Tenants", "VRF NAME")
 
 # Table Lookup Example
 Assuming we have an Excel spreadsheet with a "Tenants" tab that contains a table that looks like this:  
-![Sample Excel Table](./art/ACI_VRF_Table.jpg?raw=true)
+![Sample Excel Table](https://github.com/aj-cruz/xlextract/blob/main/art/ACI_VRF_Table.jpg?raw=true)
 If we then do this in our Python code:
 ```python
 vrf_table.TLookup()
