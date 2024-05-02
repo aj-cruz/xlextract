@@ -1,0 +1,4 @@
+*.xlsx
+poetry.lock
+__pycache__
+.venv
