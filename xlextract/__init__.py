@@ -67,8 +67,12 @@ class XLExtract(BaseExtract):
             ):  # Encountered empty cell, exit left boundary discovery
                 col_range[0] = left_current_column + 1
                 break
+            elif left_current_column == 1:  # Left edge of the spreadsheet reached
+                col_range[0] = 1
+                break
             else:
                 left_current_column -= 1
+
         right_current_column: int = keyword_column
         while True:  # Begin Searching Right of Keyword
             try:
