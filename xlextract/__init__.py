@@ -42,6 +42,14 @@ class XLExtract(BaseExtract):
         col: int = self.sheet[self.keycoords].column - 1
         self.value = self.sheet.cell(row, col).value
 
+    def BLookup(self) -> None:
+        """
+        Returns the value (string) of the cell immediately below the keyword
+        """
+        row: int = self.sheet[self.keycoords].row + 1
+        col: int = self.sheet[self.keycoords].column 
+        self.value = self.sheet.cell(row, col).value
+
     def TLookup(self) -> None:
         """
         Function to build a table (dict) of data. Using keyword coordinates as a

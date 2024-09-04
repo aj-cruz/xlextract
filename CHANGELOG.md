@@ -1,3 +1,7 @@
+## 4 September, 2024 (0.2.0)
+**Enhancement**
+- Added BLookup() for pulling value immediately below a reference cell
+
 ## 28 May, 2024 (0.1.8)
 **Bug Fixes**
 - Fixed bug causing tables with data all the way to the left edge of a spreadsheet to generate an exception (previously there had to be an empty first column)

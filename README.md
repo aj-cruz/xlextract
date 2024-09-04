@@ -18,6 +18,7 @@ xlextract searches a spreadsheet for a keyword you provide and extracts nearby d
 It provides three operations:
 1. Right Lookup: Extract cell value to the immediate right of the keyword
 2. Left Lookup: Extract cell value to the immediate left of the keyword
+2. Bottom Lookup: Extract cell value immediateley below the keyword
 3. Table Lookup: Extract an entire Excel table of data adjacent to the keyword. The table is modeled as a list of dictionaries where each list item represents a row in the table and the list item is a dictionary (key/value pairs) where each item in the dictionary represents a column of the row and where the key is the column header. An example will be provided below.
 
 ## How do I use it in my project?
@@ -28,10 +29,11 @@ You need four bits of information to use xlextract:
 4. The type of lookup you want to do (Right, Left, or Table)
 
 The project provides a class named ```XLExtract``` that requires the first 3 inputs above as strings.  
-The lookup is done via one of three class methods:
+The lookup is done via one of four class methods:
 1. ```RLookup()``` (Right Lookup)
 2. ```LLookup()``` (Left Lookup)
-3. ```TLookup()``` (Table Lookup)
+3. ```BLookup()``` (Bottom Lookup)
+4. ```TLookup()``` (Table Lookup)
 
 Here is an example of how to import the library and create a sheet object ready for lookup:
 ```python
