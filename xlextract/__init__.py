@@ -47,7 +47,7 @@ class XLExtract(BaseExtract):
         Returns the value (string) of the cell immediately below the keyword
         """
         row: int = self.sheet[self.keycoords].row + 1
-        col: int = self.sheet[self.keycoords].column 
+        col: int = self.sheet[self.keycoords].column
         self.value = self.sheet.cell(row, col).value
 
     def TLookup(self) -> None:

@@ -1,18 +1,18 @@
 [tool.poetry]
 name = "xlextract"
-version = "0.2.0"
+version = "0.2.1"
 description = "Extract data from Excel files"
 authors = ["AJ Cruz <aj.cruz@computacenter.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
-openpyxl = "^3.1.2"
+python = ">=3.11"
+openpyxl = "^3.1.5"
 
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.4.2"
-mypy = "^1.10.0"
+black = "^24.10.0"
+mypy = "^1.16.1"
 
 [build-system]
 requires = ["poetry-core"]

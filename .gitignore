@@ -1,5 +1,7 @@
 *.xlsx
 poetry.lock
 __pycache__
+.mypy_cache
 .venv
+.python-version
 dist
