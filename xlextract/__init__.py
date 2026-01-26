@@ -2,10 +2,10 @@ from xlextract.classes import OpenPyXLGetSheet, OpenPyXLGetKeyCoords
 
 
 class BaseExtract:
-    def __init__(self, xlfile: str, sheet: str, keyword: str, display_warnings: bool = True):
+    def __init__(self, xlfile: str, sheet: str, keyword: str, display_warnings: bool = True, data_only: bool = True):
         self.filename: str = xlfile
         self.sheetname: str = sheet
-        self.sheet = OpenPyXLGetSheet(xlfile, sheet).get_sheet()
+        self.sheet = OpenPyXLGetSheet(xlfile, sheet, data_only=data_only).get_sheet()
         self.display_warnings: bool = display_warnings
         self.keyword: str = keyword
         self.keycoords: str = OpenPyXLGetKeyCoords(

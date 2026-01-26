@@ -2,9 +2,10 @@ import openpyxl  # type: ignore
 
 
 class GetSheet:
-    def __init__(self, xlfile: str, sheet: str) -> None:
+    def __init__(self, xlfile: str, sheet: str, data_only: bool = True) -> None:
         self.filename: str = xlfile
         self.sheetname: str = sheet
+        self.data_only: bool = data_only
 
     def __str__(self) -> str:
         return f"{self.filename}/{self.sheetname}"
@@ -15,7 +16,7 @@ class GetSheet:
 
 class OpenPyXLGetSheet(GetSheet):
     def get_sheet(self):
-        wb = openpyxl.load_workbook(self.filename)
+        wb = openpyxl.load_workbook(self.filename, data_only=self.data_only)
         return wb[self.sheetname]
 
 
