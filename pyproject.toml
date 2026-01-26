@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "xlextract"
-version = "0.2.1"
+version = "0.2.2"
 description = "Extract data from Excel files"
 authors = ["AJ Cruz <aj.cruz@computacenter.com>"]
 readme = "README.md"
