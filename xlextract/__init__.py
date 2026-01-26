@@ -2,10 +2,11 @@ from xlextract.classes import OpenPyXLGetSheet, OpenPyXLGetKeyCoords
 
 
 class BaseExtract:
-    def __init__(self, xlfile: str, sheet: str, keyword: str):
+    def __init__(self, xlfile: str, sheet: str, keyword: str, display_warnings: bool = True):
         self.filename: str = xlfile
         self.sheetname: str = sheet
         self.sheet = OpenPyXLGetSheet(xlfile, sheet).get_sheet()
+        self.display_warnings: bool = display_warnings
         self.keyword: str = keyword
         self.keycoords: str = OpenPyXLGetKeyCoords(
             self.sheet, sheet, self.keyword
@@ -121,7 +122,7 @@ class XLExtract(BaseExtract):
             data_row += 1  # All done with this row, move to next row
         self.value = table
 
-        if not self.value:
+        if not self.value and self.display_warnings:
             print(
                 f"\nWARNING: The table generated for keyword '{self.keyword}' is empty. This probably means the cell immediately below the keyword is empty.\n"
             )

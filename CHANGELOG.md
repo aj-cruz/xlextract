@@ -1,3 +1,7 @@
+## 20 June, 2025 (0.2.2)
+**Enhancement**
+- Added `display_warnings` parameter to `BaseExtract` class to optionally disable printing of empty table warnings
+
 ## 20 June, 2025 (0.2.1)
 **Dependency Updates**
 - Changed Poetry Python dependency to minimum Python version 3.11 (allowing support for newer versions)
