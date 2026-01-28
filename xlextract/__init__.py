@@ -1,3 +1,4 @@
+import pandas as pd
 from xlextract.classes import OpenPyXLGetSheet, OpenPyXLGetKeyCoords
 
 
@@ -53,76 +54,44 @@ class XLExtract(BaseExtract):
 
     def TLookup(self) -> None:
         """
-        Function to build a table (dict) of data. Using keyword coordinates as a
-        reference point. Searches down, left, and right of the reference coords
-        and builds a table of all data (list of flat dictionaries) ending when it
-        encounters the first empty cell (assumes all data is populated contiguously)
+        Function to build a list of table data using pandas. Uses the keyword to
+        locate the table header row, then builds a table of all data below the
+        header row until it encounters the first empty row. Assumes all data is
+        populated contiguously.
         """
-        table: list = []
-        # Establish points of reference
-        header_row: int = self.sheet[self.keycoords].row
-        data_row: int = self.sheet[self.keycoords].row + 1
-        keyword_column: int = self.sheet[self.keycoords].column
+        df: pd.DataFrame = pd.read_excel(self.filename, sheet_name=self.sheetname, header=None)
 
-        # Establish column range/table width by discovering header text
-        col_range: list[int] = [keyword_column, keyword_column]
-        left_current_column: int = keyword_column
-        while True:  # Begin Searching Left of Keyword
-            left_cell_content: str = self.sheet.cell(
-                header_row, left_current_column
-            ).value
-            if (
-                not left_cell_content
-            ):  # Encountered empty cell, exit left boundary discovery
-                col_range[0] = left_current_column + 1
-                break
-            elif left_current_column == 1:  # Left edge of the spreadsheet reached
-                col_range[0] = 1
-                break
-            else:
-                left_current_column -= 1
-
-        right_current_column: int = keyword_column
-        while True:  # Begin Searching Right of Keyword
-            try:
-                right_cell_content: str = self.sheet.cell(
-                    header_row, right_current_column
-                ).value
-            except IndexError:
-                col_range[1] = right_current_column
-                break
-            if (
-                not right_cell_content
-            ):  # Encountered empty cell, exit right boundary discovery
-                col_range[1] = right_current_column
-                break
-            else:
-                right_current_column += 1
-
-        col_start: int = col_range[0]
-        col_end: int = col_range[1]
-
-        # Loop through the rows and columns to build the table
-        while True:
-            cell_content: str | None
-            try:
-                cell_content = self.sheet.cell(data_row, keyword_column).value
-            except IndexError:
-                cell_content = None
-            if not cell_content:  # Empty cell detected, exit table build
-                break
-            else:
-                # Build dictionary for this row using header row as the keys
-                this_row_dict: dict = {}
-                for col in range(col_start, col_end):
-                    dict_key: str = self.sheet.cell(header_row, col).value
-                    dict_val: str = self.sheet.cell(data_row, col).value
-                    this_row_dict[dict_key] = dict_val
-                table.append(this_row_dict)
-            data_row += 1  # All done with this row, move to next row
-        self.value = table
-
-        if not self.value and self.display_warnings:
-            print(
-                f"\nWARNING: The table generated for keyword '{self.keyword}' is empty. This probably means the cell immediately below the keyword is empty.\n"
+        # Locate the header row using the keyword
+        matches = df.index[df.eq(self.keyword).any(axis=1)]
+        if matches.empty:
+            raise ValueError(
+                f"\nNo table found for keyword '{self.keyword}' on sheet '{self.sheetname}'\n"
             )
+        else:
+            # If multiple matches found, warn user and use first match
+            if len(matches) > 1:
+                print(f"\nWarning: Keyword '{self.keyword}' found multiple times at rows {list(matches)}. Using the first occurrence.\n")
+            header_idx = matches[0]
+            header_idx = df.index[df.eq(self.keyword).any(axis=1)][0]
+
+            table = df.iloc[header_idx + 1:]
+
+            end_idx = table.index[table.isna().all(axis=1)]
+            if not end_idx.empty:
+                table = table.loc[:end_idx[0] - 1]
+
+            headers = df.iloc[header_idx]
+
+            cols_to_keep = [
+                col for col in table.columns
+                if not (pd.isna(headers[col]) and table[col].isna().all())
+            ]
+
+            table = table[cols_to_keep]
+            table.columns = headers[cols_to_keep]
+
+            table = table.astype(object).where(pd.notna(table), None)
+
+            table = table.dropna(subset=[self.keyword])
+
+            self.value = table.to_dict(orient="records")

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "xlextract"
-version = "0.2.3"
+version = "0.2.4"
 description = "Extract data from Excel files"
 authors = ["AJ Cruz <aj.cruz@computacenter.com>"]
 readme = "README.md"
@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.11"
 openpyxl = "^3.1.5"
+pandas = "^3.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

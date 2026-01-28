@@ -1,8 +1,12 @@
-## 20 June, 2025 (0.2.3)
+## 28 January, 2025 (0.2.4)
+**Enhancement**
+- Refactor `TLookup()` to use Pandas insted of openpyxl directly
+
+## 20 January, 2025 (0.2.3)
 **Enhancement**
 - Added `data_only` parameter to `BaseExtract` class with a default of `True`. By default this will tell openpyxl to extract calculated cell values instead of the formulas.
 
-## 20 June, 2025 (0.2.2)
+## 20 January, 2025 (0.2.2)
 **Enhancement**
 - Added `display_warnings` parameter to `BaseExtract` class to optionally disable printing of empty table warnings
 

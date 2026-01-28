@@ -7,7 +7,7 @@ XLExtract
 
 An abstraction layer for quickly pulling data out of Microsoft Excel Spreadsheets.
 
-The project is currently powered by the [openpyxl](https://pypi.org/project/openpyxl/) library but you don't need to know anything about the underlying library and it could change in the future.
+The project is currently powered by the [openpyxl](https://pypi.org/project/openpyxl/) and [pandas](https://pypi.org/project/pandas/) libraries but you don't need to know anything about those underlying libraries and they could change in the future.
 
 ## Installation
 xlextract can be installed via poetry with: ```poetry add xlextract```  
@@ -26,7 +26,7 @@ You need four bits of information to use xlextract:
 1. The name of the Excel file
 2. The name of the sheet in the Excel file
 3. The keyword you want to search for
-4. The type of lookup you want to do (Right, Left, or Table)
+4. The type of lookup you want to do (Right, Left, Bottom, or Table)
 
 The project provides a class named ```XLExtract``` that requires the first 3 inputs above as strings.  
 The lookup is done via one of four class methods:
@@ -70,16 +70,8 @@ We would get the following output:
 ]
 ```
 
-## How does it do the table lookup?
-The table lookup assumes the keyword you provide resides in the table header.  
-It first searches cells left of the keyword, then right of the keyword to establish table width.  
-When it encounters the first empty cell it assumes the edge of the table.  
-Then it moves down from the keyword cell, if data is present it captures the row.  
-When it encounters the first empty cell it assumes the bottom of the table, completing the extraction.
-
 ## CAVEATS
 The source Excel spreadsheet content should be planned ahead of time to account for these operational caveats:
-- Keywords on a given sheet must be unique
-- Keywords for a table should be one of the column headers
-- All cells in a table header should be populated for the table lookup to determine the correct table width
-- All data cells in the keyword column should be populated for the table lookup to determine the correct table height. Because of this you should not use columns with optional data for the keyword, or if you must, populate all the cells in the column with something ("N/A" or "empty" if a cell has no value for example).
+- Keywords on a given sheet should be unique (the first instance found is used)
+- Keywords for a table must be one of the column headers (keyword defines the header row)
+- Keyword columns are assumed to be required values. Any rows that do not have a value for the keyword column will be filtered out.
