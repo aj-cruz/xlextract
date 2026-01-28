@@ -15,7 +15,7 @@ or via pip with: ```pip install xlextract```
 
 ## What does it do?
 xlextract searches a spreadsheet for a keyword you provide and extracts nearby data.  
-It provides three operations:
+It provides four operations:
 1. Right Lookup: Extract cell value to the immediate right of the keyword
 2. Left Lookup: Extract cell value to the immediate left of the keyword
 2. Bottom Lookup: Extract cell value immediateley below the keyword
